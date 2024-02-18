@@ -29,7 +29,7 @@ export function useData<T>(path: string, q = "", page = 1): DataHookResponse<T> 
             setError(null);
 
             const response = await fetch(
-                `${API_HOST}/api/${path}?format=json&search=${q}&page=${page}`
+                `${API_HOST}${path}?format=json&search=${q}&page=${page}`
             );
 
             if (response.status === 200) {

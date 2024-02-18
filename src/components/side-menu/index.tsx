@@ -1,5 +1,5 @@
 import { Link } from "wouter"
-import { resources } from "../../data";
+import { resourceTypes, resourcesMap } from "../../data";
 import styles from "./index.module.css";
 
 const SideMenu = (props: { visible: boolean; setVisibility: (_: boolean) => void }) => (
@@ -12,9 +12,9 @@ const SideMenu = (props: { visible: boolean; setVisibility: (_: boolean) => void
         <label>Links</label>
 
         <ul className={styles.list}>
-          {resources.map((item, index) => (
+          {resourceTypes.map((item, index) => (
             <li key={index}>
-              <Link href={item.route}>{item.title}</Link>
+              <Link href={resourcesMap[item].route}>{resourcesMap[item].title}</Link>
             </li>
           ))}
         </ul>
