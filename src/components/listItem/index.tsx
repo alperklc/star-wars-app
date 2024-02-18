@@ -12,25 +12,27 @@ const BaseListItem = ({ title, description, sideInfo }: { title: string, descrip
   </article>
 );
 
-export const ListItem = ({ resourceType, item }: { resourceType: ResourceType, item: Resource }) => {
+export const ListItem = ({ resourceType, item: initialItem }: { resourceType: ResourceType, item: Resource }) => {
+  let item = initialItem
+ 
   switch (resourceType) {
     case "films":
-      const film = item as Film;
-      return <BaseListItem title={film.title} description={film.producer} sideInfo={film.release_date} />
+      item = item as Film;
+      return <BaseListItem title={item.title} description={item.producer} sideInfo={item.release_date} />
     case "people":
-      const person = item as Person
-      return <BaseListItem title={person.name} description={person.birth_year} sideInfo={person.gender} />
+      item = item as Person
+      return <BaseListItem title={item.name} description={item.birth_year} sideInfo={item.gender} />
     case "planets":
-      const planet = item as Planet
-      return <BaseListItem title={planet.name} description={planet.terrain} sideInfo={planet.diameter} />
+      item = item as Planet
+      return <BaseListItem title={item.name} description={item.terrain} sideInfo={item.diameter} />
     case "species":
-      const species = item as Species
-      return <BaseListItem title={species.name} description={species.classification} sideInfo={species.average_height} />
+      item = item as Species
+      return <BaseListItem title={item.name} description={item.classification} sideInfo={item.average_height} />
     case "starships":
-      const starship = item as Starship
-      return <BaseListItem title={starship.name} description={starship.manufacturer} sideInfo={starship.crew} />
+      item = item as Starship
+      return <BaseListItem title={item.name} description={item.manufacturer} sideInfo={item.crew} />
     case "vehicles":
-      const vehicle = item as Vehicle
-      return <BaseListItem title={vehicle.name} description={vehicle.manufacturer} sideInfo={vehicle.vehicle_class} />
+      item = item as Vehicle
+      return <BaseListItem title={item.name} description={item.manufacturer} sideInfo={item.vehicle_class} />
   }
 }

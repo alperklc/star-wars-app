@@ -12,13 +12,13 @@ export type ApiListResponse<T> = {
 const getEmptyResponse = <T>(): ApiListResponse<T> => ({ count: 0, next: null, previous: null, results: [] })
 
 export type DataHookResponse<T> = [
-    ApiListResponse<T>, boolean, string | Error | null, Function
+    ApiListResponse<T>, boolean, string | Error | null
 ];
 
 export function useData<T>(path: string, q = "", page = 1): DataHookResponse<T> {
     const [loading, setLoading] = React.useState(true);
     const [data, setData] = React.useState<ApiListResponse<T>>(getEmptyResponse<T>());
-    const [error, setError] = React.useState<string | Error | null>(null);
+    const [error, setError] = React.useState<string | null>(null);
 
     const fetchAndUpdate = async (
         q: string,
@@ -32,21 +32,20 @@ export function useData<T>(path: string, q = "", page = 1): DataHookResponse<T> 
                 `${API_HOST}${path}?format=json&search=${q}&page=${page}`
             );
 
+            const data = await response.json();
             if (response.status === 200) {
-                const data = await response.json();
                 setData(data);
             } else {
-                console.error(response.text());
-                setError("An error has occured");
+                console.error(data);
+                setError(data?.detail);
             }
-
-            setLoading(false);
-        } catch (e) {
+            
+        } catch (e: unknown) {
             console.error(e);
 
-            setError(e as any);
-            setLoading(false);
+            setError(e as string);
         }
+        setLoading(false);
     };
 
     React.useEffect(() => {
@@ -58,5 +57,5 @@ export function useData<T>(path: string, q = "", page = 1): DataHookResponse<T> 
         return () => clearTimeout(handler);
     }, [page, q]);
 
-    return [data, loading, error, fetchAndUpdate];
-};
+    return [data, loading, error];
+}

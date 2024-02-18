@@ -55,13 +55,16 @@ export function ListPage({ resourceType }: { resourceType: ResourceType }) {
           )}
         </section>
         <div>
-          {loading ? (
-            <LoadingIndicator />
-          ) : data?.results.length > 0 ? (
-            <List render={(item) => <ListItem resourceType={resourceType} item={item} />} items={data.results} />
-          ) : (
-            <span>Nothing found</span>
-          )}
+          {error ?
+            <p>An error occurred: {error?.toString()}</p> :
+
+            (loading ? (
+              <LoadingIndicator />
+            ) : data?.results.length > 0 ? (
+              <List render={(item) => <ListItem resourceType={resourceType} item={item} />} items={data.results} />
+            ) : (
+              <span>Nothing found</span>
+            ))}
 
           <footer className={styles.footer}>
             <span>
@@ -76,4 +79,4 @@ export function ListPage({ resourceType }: { resourceType: ResourceType }) {
       </div>
     </Layout>
   );
-};
+}
